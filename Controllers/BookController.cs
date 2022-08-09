@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DependencyRoomBooking.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using RestSharp;
@@ -75,8 +76,6 @@ public class BookRoomCommand
     public DateTime Day { get; set; }
     public CreditCard CreditCard { get; set; }
 }
-
-public record PaymentResponse(int Code, string Status);
 
 public record Customer(string Email);
 
