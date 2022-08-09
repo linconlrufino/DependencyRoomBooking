@@ -69,16 +69,6 @@ public class BookController : ControllerBase
     }
 }
 
-public class BookRoomCommand
-{
-    public string Email { get; set; }
-    public Guid RoomId { get; set; }
-    public DateTime Day { get; set; }
-    public CreditCard CreditCard { get; set; }
-}
-
-public record Customer(string Email);
-
 public record Room(Guid Id, string Name);
 
 public record Book(string Email, Guid Room, DateTime Date);
