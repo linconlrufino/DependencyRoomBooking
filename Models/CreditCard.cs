@@ -1,4 +1,4 @@
-﻿namespace DependencyRoomBooking.Controllers;
+﻿namespace DependencyRoomBooking.Models;
 
 public class CreditCard
 {
