@@ -68,9 +68,3 @@ public class BookController : ControllerBase
         return Ok();
     }
 }
-
-public record Room(Guid Id, string Name);
-
-public record Book(string Email, Guid Room, DateTime Date);
-
-public record CreditCard(string Number, string Holder, string Expiration, string Cvv);
