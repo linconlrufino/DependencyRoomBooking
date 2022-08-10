@@ -13,10 +13,7 @@ public class BookController : ControllerBase
     public async Task<IActionResult> Book(BookRoomCommand command)
     {
         // Recupera o usuário
-        await using var connection = new SqlConnection();
-        var customer = await connection
-            .QueryFirstOrDefaultAsync<Customer?>("SELECT * FROM [Customer] WHERE [Email]=@email",
-                new { command.Email });
+        
 
         if (customer == null)
             return NotFound();
