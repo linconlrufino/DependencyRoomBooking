@@ -3,7 +3,6 @@ using DependencyRoomBooking.Commands;
 using DependencyRoomBooking.Models;
 using DependencyRoomBooking.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using RestSharp;
 
 namespace DependencyRoomBooking.Controllers;
@@ -12,10 +11,11 @@ namespace DependencyRoomBooking.Controllers;
 public class BookController : ControllerBase
 {
     ICustomerService _serviceCostumer;
-
-    public BookController(ICustomerService serviceCostumer)
+    IBookService _bookService;
+    public BookController(ICustomerService serviceCostumer, IBookService bookService)
     {
         _serviceCostumer = serviceCostumer;
+        _bookService = bookService;
     }
 
     public async Task<IActionResult> Book(BookRoomCommand command)
@@ -27,17 +27,10 @@ public class BookController : ControllerBase
             return NotFound();
 
         // Verifica se a sala está disponível
-        var room = await connection.QueryFirstOrDefaultAsync<Book?>(
-            "SELECT * FROM [Book] WHERE [Room]=@room AND [Date] BETWEEN @dateStart AND @dateEnd",
-            new
-            {
-                Room = command.RoomId,
-                DateStart = command.Day.Date,
-                DateEnd = command.Day.Date.AddDays(1).AddTicks(-1),
-            });
+        var bookedRoom = await _bookService.VerifyIfRoomHasBooked(command.RoomId, command.Day.Date, command.Day.Date.AddDays(1).AddTicks(-1));
 
         // Se existe uma reserva, a sala está indisponível
-        if (room is not null)
+        if (bookedRoom)
             return BadRequest();
 
         // Tenta fazer um pagamento
