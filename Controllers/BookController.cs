@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using DependencyRoomBooking.Commands;
 using DependencyRoomBooking.Models;
+using DependencyRoomBooking.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using RestSharp;
@@ -10,10 +11,17 @@ namespace DependencyRoomBooking.Controllers;
 [ApiController]
 public class BookController : ControllerBase
 {
+    ICustomerService _serviceCostumer;
+
+    public BookController(ICustomerService serviceCostumer)
+    {
+        _serviceCostumer = serviceCostumer;
+    }
+
     public async Task<IActionResult> Book(BookRoomCommand command)
     {
         // Recupera o usuário
-        
+        var customer = _serviceCostumer.GetCustomerByEmailAsync(command.Email);
 
         if (customer == null)
             return NotFound();
