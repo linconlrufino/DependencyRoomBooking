@@ -19,10 +19,13 @@ public static class DependenciesExtension
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddTransient<ICustomerRepository, CustomerRepository>();
+        services.AddTransient<IBookRepository, BookRepository>();
     }
 
     public static void AddServices(this IServiceCollection services)
     {
         services.AddTransient<ICustomerService, CustomerService>();
+        services.AddTransient<IBookService, BookService>();
+        services.AddTransient<IPaymentService, PaymentService>();
     }
 }

@@ -9,4 +9,6 @@ public interface IBookRepository
         DateTime dateStart,
         DateTime dateEnd);
 
+    public Task<bool?> Save(Book book);
+
 }

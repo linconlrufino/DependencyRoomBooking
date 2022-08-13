@@ -24,14 +24,19 @@ public class BookRepository : IBookRepository
                  DateEnd = dateEnd,
              });
     }
+
+    public async Task<bool?> Save(Book book)
+    {
+        var result = await _context.ExecuteAsync("INSERT INTO [Book] VALUES(@date, @email, @room)", new
+        {
+            book.Date,
+            book.Email,
+            book.Room
+        });
+
+        if (result == 1)
+            return true;
+        else
+            return false;
+    }
 }
-
-
-//var room = await connection.QueryFirstOrDefaultAsync<Book?>(
-//            "SELECT * FROM [Book] WHERE [Room]=@room AND [Date] BETWEEN @dateStart AND @dateEnd",
-//            new
-//            {
-//                Room = command.RoomId,
-//                DateStart = command.Day.Date,
-//                DateEnd = command.Day.Date.AddDays(1).AddTicks(-1),
-//            });
